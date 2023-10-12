@@ -58,3 +58,9 @@
    An individual tank can go into maintenance. This means its content must be redistributed. While in maintenance, it cannot receive oil, and its capacity is not 
    counted towards the tank storage's capacity. Tank maintenance can be ended, and it is fully available again from that point.
 </div>
+
+## TODO:
+- [x] First part
+- [ ] Second part
+- [ ] Unit tests
+- [ ] Log files
