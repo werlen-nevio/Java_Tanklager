@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Diese Klasse repräsentiert ein Tanklager, das mehrere Tanks zur Speicherung von Öl enthält.
@@ -31,6 +35,7 @@ class TankStorage {
                 break;
             }
         }
+        logRemoval(tankNumber);
         return removedTank;
     }
 
@@ -127,6 +132,34 @@ class TankStorage {
      */
     public List<Tank> getTanks() {
         return tanks;
+    }
+
+    /**
+     * Erstellt einen Logeintrag im Logs/Tank.txt, sobald ein Tank gelöscht wird.
+     */
+    private void logRemoval(int tankNumber) {
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Tank.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Tank deleted - Number: " + tankNumber + ", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
