@@ -1,6 +1,9 @@
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Tank fürs Lagern von Öl
@@ -26,6 +29,8 @@ class Tank {
         this.name = name;
         this.capacity = capacity;
         this.constructionDate = constructionDate;
+
+        logCreation();
     }
 
     /**
@@ -126,5 +131,28 @@ class Tank {
      */
     public void setUnderMaintenance(boolean underMaintenance) {
         isUnderMaintenance = underMaintenance;
+    }
+
+
+    /**
+     * Erstellt einen Logeintrag im Logs/Tank.txt, sobald ein Tank hinzugefügt wird.
+     */
+    private void logCreation() {
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Tank.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Tank created - Number: " + number + ", Name: " + name + ", Capacity: " + capacity + "l, Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
