@@ -157,6 +157,10 @@ class TankStorage {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Erstellt einen Logeintrag im Logs/Maintenance.txt, sobald eine Wartung gestartet wird.
+     */
     private  void logstartMaintenance(int tankNumber) {
         try {
             // Open the file in append mode
@@ -176,6 +180,9 @@ class TankStorage {
         }
     }
 
+    /**
+     * Erstellt einen Logeintrag im Logs/Maintenance.txt, sobald eine Wartung beendet wird.
+     */
     private  void logendMaintenance(int tankNumber) {
         try {
             // Open the file in append mode
