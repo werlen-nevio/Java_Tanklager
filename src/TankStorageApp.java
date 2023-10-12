@@ -83,6 +83,7 @@ public class TankStorageApp {
                     int endMaintenanceTankNumber = scanner.nextInt();
                     tankStorage.endMaintenance(endMaintenanceTankNumber);
                     break;
+                    
                 case 5:
                     //Öl anliefern
                     System.out.println("Wie viele Liter werden angeliefert?");
