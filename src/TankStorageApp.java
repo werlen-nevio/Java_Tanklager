@@ -2,6 +2,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Diese Klasse stellt eine Benutzeroberfläche für die Verwaltung eines Tanklagers bereit.
@@ -83,7 +86,7 @@ public class TankStorageApp {
                     int endMaintenanceTankNumber = scanner.nextInt();
                     tankStorage.endMaintenance(endMaintenanceTankNumber);
                     break;
-                    
+
                 case 5:
                     //Öl anliefern
                     System.out.println("Wie viele Liter werden angeliefert?");
@@ -91,6 +94,7 @@ public class TankStorageApp {
                     int remainingDeliveredLiters = tankStorage.deliverToTanks(deliveredLiters);
                     int successfullyDeliveredLiters = deliveredLiters - remainingDeliveredLiters;
                     System.out.println(successfullyDeliveredLiters + " Liter wurden angeliefert.");
+                    logDelivery(successfullyDeliveredLiters);
                     break;
 
                 case 6:
@@ -100,6 +104,7 @@ public class TankStorageApp {
                     int remainingWithdrawnLiters = tankStorage.withdrawFromTanks(withdrawnLiters);
                     int successfullyWithdrawnLiters = withdrawnLiters - remainingWithdrawnLiters;
                     System.out.println(successfullyWithdrawnLiters + " Liter wurden ausgeliefert.");
+                    logWithdraw(successfullyWithdrawnLiters);
                     break;
 
                 case 7:
@@ -126,6 +131,50 @@ public class TankStorageApp {
                     System.out.println("Diese Aktion existiert nicht.");
                     break;
             }
+        }
+    }
+
+    /**
+     * Erstellt einen Logeintrag im Logs/Deliver.txt, sobald Öl angeliefert wird.
+     */
+    private static void logDelivery(float successfullyDeliveredLiters){
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Deliver.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Delivered - Liters: "+ successfullyDeliveredLiters +", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Erstellt einen Logeintrag im Logs/Withdraw.txt, sobald Öl ausgeliefert wird.
+     */
+    private static void logWithdraw(float successfullyWithdrawnLiters){
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Withdraw.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Withdrawn - Liters: "+ successfullyWithdrawnLiters +", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
