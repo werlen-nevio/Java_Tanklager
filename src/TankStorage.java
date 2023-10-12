@@ -107,9 +107,11 @@ class TankStorage {
         int totalCapacity = tanks.stream().mapToInt(Tank::getCapacity).sum();
         int totalStoredLiters = tanks.stream().mapToInt(Tank::getStoredLiters).sum();
         int totalFreeCapacity = totalCapacity - totalStoredLiters;
-
-        return "Das Tanklager umfasst " + totalTanks + " Tanks mit einer Gesamtkapazität von " + totalCapacity + " Litern. " +
+        String Message = "Das Tanklager umfasst " + totalTanks + " Tanks mit einer Gesamtkapazität von " + totalCapacity + " Litern. " +
                 totalStoredLiters + " Liter Öl sind eingelagert. Für " + totalFreeCapacity + " Liter gibt es noch Platz.";
+        logStorageInfo(Message);
+
+        return Message;
     }
 
     /**
@@ -121,10 +123,13 @@ class TankStorage {
     public String getTankInfo(int tankNumber) {
         for (Tank tank : tanks) {
             if (tank.getNumber() == tankNumber) {
+                logTankInfo(tank.getInfo());
                 return tank.getInfo();
             }
         }
-        return "Tank mit Nummer " + tankNumber + " wurde nicht gefunden.";
+        String Message = "Tank mit Nummer " + tankNumber + " wurde nicht gefunden.";
+        logTankInfo(Message);
+        return Message;
     }
 
     /**
@@ -201,5 +206,48 @@ class TankStorage {
             e.printStackTrace();
         }
     }
-}
 
+    /**
+     * Erstellt einen Logeintrag im Logs/Info.txt, sobald StorageInfo angefragt wird.
+     */
+    private  void logStorageInfo(String Message) {
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Info.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Get StorageInfo - Message: " + Message + ", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Erstellt einen Logeintrag im Logs/Info.txt, sobald TankInfo angefragt wird.
+     */
+    private  void logTankInfo(String Message) {
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Info.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Get TankInfo - Message: " + Message + ", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
