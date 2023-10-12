@@ -79,6 +79,7 @@ class TankStorage {
                 break;
             }
         }
+        logstartMaintenance(tankNumber);
     }
 
     /**
@@ -93,6 +94,7 @@ class TankStorage {
                 break;
             }
         }
+        logendMaintenance(tankNumber);
     }
 
     /**
@@ -155,6 +157,37 @@ class TankStorage {
             e.printStackTrace();
         }
     }
+    private  void logstartMaintenance(int tankNumber) {
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Maintenance.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Maintenance start - Number: " + tankNumber + ", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private  void logendMaintenance(int tankNumber) {
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Maintenance.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Maintenance end - Number: " + tankNumber + ", Date: " + currentDate);
+
             // Close the file
             writer.close();
         } catch (IOException e) {
