@@ -15,6 +15,8 @@ public class TankStorageApp {
         TankStorage tankStorage = new TankStorage();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
+        logStart();
+
         while (true) {
             //Aktion wählen
             System.out.println("Wähle eine Aktion:");
@@ -39,10 +41,10 @@ public class TankStorageApp {
                     System.out.println("Geben Sie den Namen des Tanks an:");
                     String tankName = scanner.next();
 
-                    System.out.println("Geben Sie die Kapazität des Tanks an:");
+                    System.out.println("Geben Sie die Kapazität des Tanks in Liter an:");
                     int tankCapacity = scanner.nextInt();
 
-                    System.out.println("Geben Sie das Erbaudatum des Tanks an (dd.MM.yyyy):");
+                    System.out.println("Geben Sie das Erbau datum des Tanks an (dd.MM.yyyy):");
                     Date constructionDate;
                     try {
                         constructionDate = dateFormat.parse(scanner.next());
@@ -123,6 +125,7 @@ public class TankStorageApp {
                 case 9:
                     //Beenden
                     System.out.println("Das Programm wird beendet.");
+                    logExit();
                     scanner.close();
                     System.exit(0);
 
@@ -170,6 +173,110 @@ public class TankStorageApp {
 
             // Write the log entry to the file
             writer.println("Withdrawn - Liters: "+ successfullyWithdrawnLiters +", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Erstellt einen Logeintrag in allen Logfiles, sobald die Applikation beendet wird.
+     */
+    private static void logExit(){
+        // Get the current date and time
+        Date currentDate = new Date();
+        String LogText = "Applikation beendet - Date: " + currentDate;
+
+        //Nachricht in alle Logfiles schreiben
+        logInAllFiles(LogText);
+    }
+
+    /**
+     * Erstellt einen Logeintrag in allen Logfiles, sobald die Applikation gestartet wird.
+     */
+    private static void logStart(){
+        // Get the current date and time
+        Date currentDate = new Date();
+        String LogText = "Applikation gestartet - Date: " + currentDate;
+
+        //Nachricht in alle Logfiles schreiben
+        logInAllFiles(LogText);
+    }
+
+    /**
+     * Erstellt einen Logeintrag in allen Logfiles benötigt eine Nachricht
+     */
+    private static void logInAllFiles(String Nachricht){
+        //logfile In Deliver.txt
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Deliver.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Write the log entry to the file
+            writer.println(Nachricht);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //logfile In Info.txt
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Info.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Write the log entry to the file
+            writer.println(Nachricht);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //logfile In Maintenance.txt
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Maintenance.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Write the log entry to the file
+            writer.println(Nachricht);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //logfile In Tank.txt
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Tank.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Write the log entry to the file
+            writer.println(Nachricht);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //logfile In Withdraw.txt
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/Withdraw.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Write the log entry to the file
+            writer.println(Nachricht);
 
             // Close the file
             writer.close();
