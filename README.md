@@ -63,4 +63,4 @@
 - [x] First part
 - [ ] Second part
 - [ ] Unit tests
-- [ ] Log files
+- [x] Log files
