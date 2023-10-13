@@ -16,21 +16,28 @@ public class TankStorageApp {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         logStart();
+        //Beim ersten Mal nicht Aktion wählen, sondern direkt zu Tank hinzufügen.
+        boolean SkipAktion = true;
 
         while (true) {
-            //Aktion wählen
-            System.out.println("Wähle eine Aktion:");
-            System.out.println("1| Tank hinzufügen");
-            System.out.println("2| Tank entfernen");
-            System.out.println("3| Wartung starten");
-            System.out.println("4| Wartung beenden");
-            System.out.println("5| Öl anliefern");
-            System.out.println("6| Öl ausliefern");
-            System.out.println("7| Infobericht eines Tanks");
-            System.out.println("8| Infobericht des Tanklagers");
-            System.out.println("9| Beenden");
+            int action;
+            if(SkipAktion){
+                action = 1;
+            }else {
+                //Aktion wählen
+                System.out.println("Wähle eine Aktion:");
+                System.out.println("1| Tank hinzufügen");
+                System.out.println("2| Tank entfernen");
+                System.out.println("3| Wartung starten");
+                System.out.println("4| Wartung beenden");
+                System.out.println("5| Öl anliefern");
+                System.out.println("6| Öl ausliefern");
+                System.out.println("7| Infobericht eines Tanks");
+                System.out.println("8| Infobericht des Tanklagers");
+                System.out.println("9| Beenden");
 
-            int action = scanner.nextInt();
+                action = scanner.nextInt();
+            }
 
             switch (action) {
                 case 1:
@@ -134,6 +141,7 @@ public class TankStorageApp {
                     System.out.println("Diese Aktion existiert nicht.");
                     break;
             }
+            SkipAktion = false;
         }
     }
 
