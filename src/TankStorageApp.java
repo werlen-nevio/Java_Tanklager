@@ -51,7 +51,7 @@ public class TankStorageApp {
                     System.out.println("Geben Sie die Kapazität des Tanks in Liter an:");
                     int tankCapacity = scanner.nextInt();
 
-                    System.out.println("Geben Sie das Erbau datum des Tanks an (dd.MM.yyyy):");
+                    System.out.println("Geben Sie das Erbaudatum des Tanks an (dd.MM.yyyy):");
                     Date constructionDate;
                     try {
                         constructionDate = dateFormat.parse(scanner.next());
