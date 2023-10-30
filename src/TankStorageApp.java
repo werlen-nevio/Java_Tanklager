@@ -1,5 +1,4 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
 import java.io.FileWriter;
@@ -13,7 +12,6 @@ public class TankStorageApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         TankStorage tankStorage = new TankStorage();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         logStart();
         //Beim ersten Mal nicht Aktion wählen, sondern direkt zu Tank hinzufügen.
@@ -36,29 +34,24 @@ public class TankStorageApp {
                 System.out.println("8| Infobericht des Tanklagers");
                 System.out.println("9| Beenden");
 
-                action = scanner.nextInt();
+                action = InputUtils.userInput_INT();
             }
 
             switch (action) {
                 case 1:
                     //Tank hinzufügen
                     System.out.println("Geben Sie die Nummer des Tanks an:");
-                    int tankNumber = scanner.nextInt();
+                    int tankNumber = InputUtils.userInput_INT();
 
                     System.out.println("Geben Sie den Namen des Tanks an:");
-                    String tankName = scanner.next();
+                    String tankName = InputUtils.userInput_String();
 
                     System.out.println("Geben Sie die Kapazität des Tanks in Liter an:");
-                    int tankCapacity = scanner.nextInt();
+                    float tankCapacity = InputUtils.userInput_Float();
 
                     System.out.println("Geben Sie das Erbaudatum des Tanks an (dd.MM.yyyy):");
-                    Date constructionDate;
-                    try {
-                        constructionDate = dateFormat.parse(scanner.next());
-                    } catch (ParseException e) {
-                        System.out.println("Ungültiges Datumsformat.");
-                        break;
-                    }
+                    LocalDate constructionDate;
+                    constructionDate = InputUtils.userInput_Date();
 
                     Tank newTank = new Tank(tankNumber, tankName, tankCapacity, constructionDate);
                     tankStorage.addTank(newTank);
@@ -69,7 +62,7 @@ public class TankStorageApp {
                     //Tank löschen
                     System.out.println("Geben Sie die Nummer des Tanks, der entfernt werden soll, an:");
                     tankStorage.getTanks().forEach(tank -> System.out.println(tank.getNumber() + " - " + tank.getName()));
-                    int removedTankNumber = scanner.nextInt();
+                    int removedTankNumber = InputUtils.userInput_INT();
                     Tank removedTank = tankStorage.removeTank(removedTankNumber);
 
                     if (removedTank == null) {
@@ -84,7 +77,7 @@ public class TankStorageApp {
                     //Wartung starten
                     System.out.println("Geben Sie die Nummer des Tanks, welcher gewartet werden soll, an:");
                     tankStorage.getTanks().forEach(tank -> System.out.println(tank.getNumber() + " - " + tank.getName()));
-                    int maintenanceTankNumber = scanner.nextInt();
+                    int maintenanceTankNumber = InputUtils.userInput_INT();
                     tankStorage.startMaintenance(maintenanceTankNumber);
                     break;
 
@@ -92,16 +85,16 @@ public class TankStorageApp {
                     //Wartung beenden
                     System.out.println("Geben Sie die Nummer des Tanks, welcher nicht mehr gewartet werden soll, an:");
                     tankStorage.getTanks().forEach(tank -> System.out.println(tank.getNumber() + " - " + tank.getName()));
-                    int endMaintenanceTankNumber = scanner.nextInt();
+                    int endMaintenanceTankNumber = InputUtils.userInput_INT();
                     tankStorage.endMaintenance(endMaintenanceTankNumber);
                     break;
 
                 case 5:
                     //Öl anliefern
                     System.out.println("Wie viele Liter werden angeliefert?");
-                    int deliveredLiters = scanner.nextInt();
-                    int remainingDeliveredLiters = tankStorage.deliverToTanks(deliveredLiters);
-                    int successfullyDeliveredLiters = deliveredLiters - remainingDeliveredLiters;
+                    float deliveredLiters = InputUtils.userInput_Float();
+                    float remainingDeliveredLiters = tankStorage.deliverToTanks(deliveredLiters);
+                    float successfullyDeliveredLiters = deliveredLiters - remainingDeliveredLiters;
                     System.out.println(successfullyDeliveredLiters + " Liter wurden angeliefert.");
                     logDelivery(successfullyDeliveredLiters);
                     break;
@@ -109,9 +102,9 @@ public class TankStorageApp {
                 case 6:
                     //Öl ausliefern
                     System.out.println("Wie viele Liter werden ausgeliefert?");
-                    int withdrawnLiters = scanner.nextInt();
-                    int remainingWithdrawnLiters = tankStorage.withdrawFromTanks(withdrawnLiters);
-                    int successfullyWithdrawnLiters = withdrawnLiters - remainingWithdrawnLiters;
+                    float withdrawnLiters = InputUtils.userInput_Float();
+                    float remainingWithdrawnLiters = tankStorage.withdrawFromTanks(withdrawnLiters);
+                    float successfullyWithdrawnLiters = withdrawnLiters - remainingWithdrawnLiters;
                     System.out.println(successfullyWithdrawnLiters + " Liter wurden ausgeliefert.");
                     logWithdraw(successfullyWithdrawnLiters);
                     break;
@@ -120,7 +113,7 @@ public class TankStorageApp {
                     //Infobericht eines Tanks
                     System.out.println("Geben Sie die Nummer des Tanks an, dessen Infobericht Sie wollen:");
                     tankStorage.getTanks().forEach(tank -> System.out.println(tank.getNumber() + " - " + tank.getName()));
-                    int tankInfoNumber = scanner.nextInt();
+                    int tankInfoNumber = InputUtils.userInput_INT();
                     System.out.println(tankStorage.getTankInfo(tankInfoNumber));
                     break;
 
@@ -133,7 +126,6 @@ public class TankStorageApp {
                     //Beenden
                     System.out.println("Das Programm wird beendet.");
                     logExit();
-                    scanner.close();
                     System.exit(0);
 
                 default:

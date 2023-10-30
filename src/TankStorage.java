@@ -45,8 +45,8 @@ class TankStorage {
      * @param liters Die Menge des zu lieferndem Öles in Litern.
      * @return       Die Menge des nicht geliefertem Öles (0, wenn alles geliefert wurde).
      */
-    public int deliverToTanks(int liters) {
-        int remainingLiters = liters;
+    public float deliverToTanks(float liters) {
+        float remainingLiters = liters;
         for (Tank tank : tanks) {
             remainingLiters = tank.deliver(remainingLiters);
         }
@@ -59,8 +59,8 @@ class TankStorage {
      * @param liters Die Menge des zu entnehmenden Öles in Litern.
      * @return       Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
      */
-    public int withdrawFromTanks(int liters) {
-        int remainingLiters = liters;
+    public float withdrawFromTanks(float liters) {
+        float remainingLiters = liters;
         for (Tank tank : tanks) {
             remainingLiters = tank.withdraw(remainingLiters);
         }
@@ -104,9 +104,9 @@ class TankStorage {
      */
     public String getStorageInfo() {
         int totalTanks = tanks.size();
-        int totalCapacity = tanks.stream().mapToInt(Tank::getCapacity).sum();
-        int totalStoredLiters = tanks.stream().mapToInt(Tank::getStoredLiters).sum();
-        int totalFreeCapacity = totalCapacity - totalStoredLiters;
+        float totalCapacity = (float) tanks.stream().mapToDouble(tank -> tank.getCapacity()).sum();
+        float totalStoredLiters = (float) tanks.stream().mapToDouble(tank -> tank.getStoredLiters()).sum();
+        float totalFreeCapacity = totalCapacity - totalStoredLiters;
         String Message = "Das Tanklager umfasst " + totalTanks + " Tanks mit einer Gesamtkapazität von " + totalCapacity + " Litern. " +
                 totalStoredLiters + " Liter Öl sind eingelagert. Für " + totalFreeCapacity + " Liter gibt es noch Platz.";
         logStorageInfo(Message);

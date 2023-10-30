@@ -1,5 +1,6 @@
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,9 +12,9 @@ import java.io.PrintWriter;
 class Tank {
     private int number;
     private String name;
-    private int capacity;
+    private float capacity;
     private int storedLiters = 0;
-    private Date constructionDate;
+    private LocalDate constructionDate;
     private boolean isUnderMaintenance = false;
 
     /**
@@ -24,7 +25,7 @@ class Tank {
      * @param capacity         Die maximale Kapazität des Tanks in Litern.
      * @param constructionDate Das Datum, an dem der Tank gebaut wurde.
      */
-    public Tank(int number, String name, int capacity, Date constructionDate) {
+    public Tank(int number, String name, float capacity, LocalDate constructionDate) {
         this.number = number;
         this.name = name;
         this.capacity = capacity;
@@ -39,12 +40,12 @@ class Tank {
      * @param liters Die Menge des zu lieferndem Öles in Litern.
      * @return      Die Menge des nicht gelieferten Öles (0, wenn alles geliefert wurde).
      */
-    public int deliver(int liters) {
+    public float deliver(float liters) {
         if (liters <= 0 || isUnderMaintenance) {
             return 0;
         }
 
-        int deliveredLiters = Math.min(liters, capacity - storedLiters);
+        float deliveredLiters = Math.min(liters, capacity - storedLiters);
         storedLiters += deliveredLiters;
 
         return liters - deliveredLiters;
@@ -56,12 +57,12 @@ class Tank {
      * @param liters Die Menge des zu entnehmenden Öles in Litern.
      * @return      Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
      */
-    public int withdraw(int liters) {
+    public float withdraw(float liters) {
         if (liters <= 0 || isUnderMaintenance) {
             return 0;
         }
 
-        int withdrawnLiters = Math.min(liters, storedLiters);
+        float withdrawnLiters = Math.min(liters, storedLiters);
         storedLiters -= withdrawnLiters;
 
         return liters - withdrawnLiters;
@@ -73,10 +74,9 @@ class Tank {
      * @return Ein String mit Informationen über den Tank.
      */
     public String getInfo() {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String status = isUnderMaintenance ? "in Wartung" : storedLiters + " Liter gelagert, freier Platz: " + (capacity - storedLiters) + " Liter";
 
-        return "Der Tank " + name + " (Nr." + number + ", erbaut am " + dateFormat.format(constructionDate) + ") ist " + status;
+        return "Der Tank " + name + " (Nr." + number + ", erbaut am " + DateUtils.formatDate(constructionDate) + ") ist " + status;
     }
 
     /**
@@ -93,7 +93,7 @@ class Tank {
      *
      * @return Die Menge des gelagerten Öles in Litern.
      */
-    public int getStoredLiters() {
+    public float getStoredLiters() {
         return storedLiters;
     }
 
@@ -111,7 +111,7 @@ class Tank {
      *
      * @return Die maximale Kapazität in Litern.
      */
-    public int getCapacity() {
+    public float getCapacity() {
         return capacity;
     }
 
