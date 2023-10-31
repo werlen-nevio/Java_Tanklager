@@ -61,6 +61,8 @@
 
 ## TODO:
 - [x] First part
-- [ ] Second part
-- [ ] Unit tests
+- [x] Second part
 - [x] Log files
+- [ ] Unit tests
+- [ ] Documentation
+- [x] Report
