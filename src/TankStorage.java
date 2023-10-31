@@ -30,28 +30,42 @@ class TankStorage {
         Tank removedTank = null;
         for (Tank tank : tanks) {
             if (tank.getNumber() == tankNumber) {
-                removedTank = tank;
-                tanks.remove(tank);
-
-                // Umverteilung des Inhalts
                 float removedLiters = tank.getStoredLiters();
+                boolean canRemove = true; // Annahme, dass der Tank entfernt werden kann
+
                 for (Tank otherTank : tanks) {
                     if (otherTank != tank) {
                         float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
-                        if (spaceAvailable > 0) {
+                        if (spaceAvailable < removedLiters) {
+                            canRemove = false;
+                            break; // Nicht genügend Platz zum Umverteilen
+                        }
+                    }
+                }
+
+                if (canRemove) {
+                    // Umverteilung des Inhalts
+                    for (Tank otherTank : tanks) {
+                        if (otherTank != tank) {
+                            float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
                             float transferredLiters = Math.min(spaceAvailable, removedLiters);
                             otherTank.deliver(transferredLiters);
                             removedLiters -= transferredLiters;
                         }
                     }
-                }
 
-                // Log-Eintrag für die Umverteilung
-                logRedistributeContent(tankNumber, removedLiters);
+                    tanks.remove(tank); // Entferne den Tank, nachdem der Inhalt umverteilt wurde
+                    removedTank = tank;
+
+                    // Log-Eintrag für die Umverteilung
+                    logRedistributeContent(tankNumber, removedLiters);
+                } else {
+                    System.out.println("Der Tank kann nicht entfernt werden, da nicht genügend Platz zum Umverteilen vorhanden ist.");
+                }
+                logRemoval(tankNumber);
                 break;
             }
         }
-        logRemoval(tankNumber);
         return removedTank;
     }
 
