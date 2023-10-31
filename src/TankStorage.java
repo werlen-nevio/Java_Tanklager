@@ -43,13 +43,14 @@ class TankStorage {
      * Liefert eine bestimmte Menge Öl an das Tanklager.
      *
      * @param liters Die Menge des zu lieferndem Öles in Litern.
-     * @return       Die Menge des nicht geliefertem Öles (0, wenn alles geliefert wurde).
+     * @return Die Menge des nicht gelieferten Öles (0, wenn alles geliefert wurde).
      */
     public float deliverToTanks(float liters) {
         float remainingLiters = liters;
         for (Tank tank : tanks) {
             remainingLiters = tank.deliver(remainingLiters);
         }
+        generateStatusMessage("geliefert", liters - remainingLiters);
         return remainingLiters;
     }
 
@@ -57,13 +58,14 @@ class TankStorage {
      * Entnimmt eine bestimmte Menge Öl aus allen Tanks im Tanklager.
      *
      * @param liters Die Menge des zu entnehmenden Öles in Litern.
-     * @return       Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
+     * @return Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
      */
     public float withdrawFromTanks(float liters) {
         float remainingLiters = liters;
         for (Tank tank : tanks) {
             remainingLiters = tank.withdraw(remainingLiters);
         }
+        generateStatusMessage("entnommen", liters - remainingLiters);
         return remainingLiters;
     }
 
@@ -249,5 +251,30 @@ class TankStorage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Generiert eine Statusmeldung und gibt sie in der Konsole aus.
+     *
+     * @param message Die Statusmeldung.
+     */
+    private void printStatusMessage(String message) {
+        System.out.println(message);
+    }
+
+    /**
+     * Erstellt eine Statusmeldung und gibt sie in der Konsole aus.
+     *
+     * @param operation Die Operation (Lieferung oder Entnahme).
+     * @param liters    Die Menge des gelieferten oder entnommenen Öles in Litern.
+     */
+    private void generateStatusMessage(String operation, float liters) {
+        StringBuilder message = new StringBuilder("Öl " + operation + ": " + liters + " Liter\n");
+
+        for (Tank tank : tanks) {
+            message.append(tank.getInfo()).append("\n");
+        }
+
+        printStatusMessage(message.toString());
     }
 }
