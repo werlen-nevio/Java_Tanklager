@@ -2,9 +2,17 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Die InputUtils-Klasse enthält Hilfsfunktionen zur Eingabe von Validieren vom Inputs.
+ */
 public class InputUtils {
     static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Liest eine ganze Zahl (int) von der Benutzereingabe ein.
+     *
+     * @return Die eingegebene ganze Zahl.
+     */
     public static int userInput_INT() {
         int UserInputINT = 0;
         boolean success = false;
@@ -22,6 +30,11 @@ public class InputUtils {
         return UserInputINT;
     }
 
+    /**
+     * Liest eine Zahl (float) von der Benutzereingabe ein.
+     *
+     * @return Die eingegebene Fließkommazahl.
+     */
     public static float userInput_Float() {
         float userInputFloat = 0.0f;
         boolean success = false;
@@ -40,6 +53,11 @@ public class InputUtils {
         return userInputFloat;
     }
 
+    /**
+     * Liest einen String von der Benutzereingabe ein.
+     *
+     * @return Die eingegebene Zeichenkette.
+     */
     public static String userInput_String() {
         String userInputString = "";
         boolean success = false;
@@ -58,6 +76,11 @@ public class InputUtils {
         return userInputString;
     }
 
+    /**
+     * Liest ein Datum im Format "dd.MM.yyyy" von der Benutzereingabe ein.
+     *
+     * @return Das eingegebene Datum als LocalDate-Objekt.
+     */
     public static LocalDate userInput_Date() {
         LocalDate userInputDate = null;
         boolean success = false;
