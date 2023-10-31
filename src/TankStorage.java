@@ -135,6 +135,9 @@ class TankStorage {
 
                 // Log-Eintrag für die Umverteilung des Inhalts
                 logRedistributeContent(tankNumber, tankContent);
+
+                // Feedback in der Konsole
+                System.out.println("Wartung für Tank " + tank.getName() + " (Nr." + tank.getNumber() + ") wurde gestartet.");
                 break;
             }
         }
@@ -154,6 +157,9 @@ class TankStorage {
 
                 // Log-Eintrag für das Ende der Wartung
                 logendMaintenance(tankNumber);
+
+                // Feedback in der Konsole
+                System.out.println("Wartung für Tank " + tank.getName() + " (Nr." + tank.getNumber() + ") wurde beendet.");
                 break;
             }
         }
