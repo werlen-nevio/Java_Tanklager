@@ -41,8 +41,12 @@ class Tank {
      * @return      Die Menge des nicht gelieferten Öles (0, wenn alles geliefert wurde).
      */
     public float deliver(float liters) {
-        if (liters <= 0 || isUnderMaintenance) {
+        if (liters <= 0 ) {
             return 0;
+        }
+
+        if (isUnderMaintenance) {
+            return liters;
         }
 
         float deliveredLiters = Math.min(liters, capacity - storedLiters);
@@ -58,8 +62,12 @@ class Tank {
      * @return      Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
      */
     public float withdraw(float liters) {
-        if (liters <= 0 || isUnderMaintenance) {
+       if (liters <= 0 ) {
             return 0;
+        }
+
+        if (isUnderMaintenance) {
+            return liters;
         }
 
         float withdrawnLiters = Math.min(liters, storedLiters);
