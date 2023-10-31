@@ -33,24 +33,22 @@ class TankStorage {
                 float removedLiters = tank.getStoredLiters();
                 boolean canRemove = true; // Annahme, dass der Tank entfernt werden kann
 
+                float spaceAvailable = 0;
                 for (Tank otherTank : tanks) {
                     if (otherTank != tank) {
-                        float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
-                        if (spaceAvailable < removedLiters) {
-                            canRemove = false;
-                            break; // Nicht genügend Platz zum Umverteilen
-                        }
+                        spaceAvailable += otherTank.getCapacity() - otherTank.getStoredLiters();
                     }
+                }
+                if (spaceAvailable < removedLiters) {
+                    canRemove = false; // Nicht genügend Platz zum Umverteilen
                 }
 
                 if (canRemove) {
                     // Umverteilung des Inhalts
+                    float remainingLiter = removedLiters;
                     for (Tank otherTank : tanks) {
                         if (otherTank != tank) {
-                            float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
-                            float transferredLiters = Math.min(spaceAvailable, removedLiters);
-                            otherTank.deliver(transferredLiters);
-                            removedLiters -= transferredLiters;
+                            remainingLiter = otherTank.deliver(remainingLiter);
                         }
                     }
 
@@ -132,24 +130,22 @@ class TankStorage {
                 float tankContent = tank.getStoredLiters();
                 boolean canStartMaintenance = true; // Annahme, dass die Wartung gestartet werden kann
 
+                float spaceAvailable = 0;
                 for (Tank otherTank : tanks) {
                     if (otherTank != tank) {
-                        float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
-                        if (spaceAvailable < tankContent) {
-                            canStartMaintenance = false;
-                            break; // Nicht genügend Platz zum Umverteilen
-                        }
+                        spaceAvailable += otherTank.getCapacity() - otherTank.getStoredLiters();
                     }
+                }
+                if (spaceAvailable < tankContent) {
+                    canStartMaintenance = false;
                 }
 
                 if (canStartMaintenance) {
                     // Umverteilung des Inhalts, bevor die Wartung beginnt
+                    float remainingLiter = tankContent;
                     for (Tank otherTank : tanks) {
                         if (otherTank != tank) {
-                            float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
-                            float transferredLiters = Math.min(spaceAvailable, tankContent);
-                            otherTank.deliver(transferredLiters);
-                            tankContent -= transferredLiters;
+                            remainingLiter = otherTank.deliver(remainingLiter);
                         }
                     }
 
