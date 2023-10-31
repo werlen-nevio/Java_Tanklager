@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +9,6 @@ import java.io.PrintWriter;
  */
 public class TankStorageApp {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         TankStorage tankStorage = new TankStorage();
 
         logStart();

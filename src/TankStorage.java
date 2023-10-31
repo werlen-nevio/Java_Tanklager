@@ -130,32 +130,48 @@ class TankStorage {
         for (Tank tank : tanks) {
             if (tank.getNumber() == tankNumber) {
                 float tankContent = tank.getStoredLiters();
-                // Umverteilung des Inhalts, bevor die Wartung beginnt
+                boolean canStartMaintenance = true; // Annahme, dass die Wartung gestartet werden kann
+
                 for (Tank otherTank : tanks) {
                     if (otherTank != tank) {
                         float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
-                        if (spaceAvailable > 0) {
+                        if (spaceAvailable < tankContent) {
+                            canStartMaintenance = false;
+                            break; // Nicht genügend Platz zum Umverteilen
+                        }
+                    }
+                }
+
+                if (canStartMaintenance) {
+                    // Umverteilung des Inhalts, bevor die Wartung beginnt
+                    for (Tank otherTank : tanks) {
+                        if (otherTank != tank) {
+                            float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
                             float transferredLiters = Math.min(spaceAvailable, tankContent);
                             otherTank.deliver(transferredLiters);
                             tankContent -= transferredLiters;
                         }
                     }
+
+                    // Setzen des Tanks in Wartung, nachdem der Inhalt umverteilt wurde
+                    tank.setUnderMaintenance(true);
+
+                    // Log-Eintrag für den Start der Wartung
+                    logstartMaintenance(tankNumber);
+
+                    // Log-Eintrag für die Umverteilung des Inhalts
+                    logRedistributeContent(tankNumber, tankContent);
+
+                    // Feedback in der Konsole
+                    System.out.println("Wartung für Tank " + tank.getName() + " (Nr." + tank.getNumber() + ") wurde gestartet.");
+                } else {
+                    System.out.println("Die Wartung kann nicht gestartet werden, da nicht genügend Platz zum Umverteilen vorhanden ist.");
                 }
-                // Setzen des Tanks in Wartung, nachdem der Inhalt umverteilt wurde
-                tank.setUnderMaintenance(true);
-
-                // Log-Eintrag für den Start der Wartung
-                logstartMaintenance(tankNumber);
-
-                // Log-Eintrag für die Umverteilung des Inhalts
-                logRedistributeContent(tankNumber, tankContent);
-
-                // Feedback in der Konsole
-                System.out.println("Wartung für Tank " + tank.getName() + " (Nr." + tank.getNumber() + ") wurde gestartet.");
                 break;
             }
         }
     }
+
 
     /**
      * Beendet die Wartung für einen bestimmten Tank im Tanklager.
