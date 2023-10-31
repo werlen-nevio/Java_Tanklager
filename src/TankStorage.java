@@ -21,10 +21,10 @@ class TankStorage {
     }
 
     /**
-     * Entfernt einen Tank aus dem Tanklager anhand seiner Tanknummer.
+     * Entfernt einen Tank aus dem Tanklager anhand seiner Tanknummer und verteilt seinen Inhalt um.
      *
      * @param tankNumber Die Nummer des zu entfernenden Tanks.
-     * @return           Der entfernte Tank oder null, wenn kein Tank mit der angegebenen Nummer gefunden wurde.
+     * @return Der entfernte Tank oder null, wenn kein Tank mit der angegebenen Nummer gefunden wurde.
      */
     public Tank removeTank(int tankNumber) {
         Tank removedTank = null;
@@ -32,11 +32,49 @@ class TankStorage {
             if (tank.getNumber() == tankNumber) {
                 removedTank = tank;
                 tanks.remove(tank);
+
+                // Umverteilung des Inhalts
+                float removedLiters = tank.getStoredLiters();
+                for (Tank otherTank : tanks) {
+                    if (otherTank != tank) {
+                        float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
+                        if (spaceAvailable > 0) {
+                            float transferredLiters = Math.min(spaceAvailable, removedLiters);
+                            otherTank.deliver(transferredLiters);
+                            removedLiters -= transferredLiters;
+                        }
+                    }
+                }
+
+                // Log-Eintrag für die Umverteilung
+                logRedistributeContent(tankNumber, removedLiters);
                 break;
             }
         }
         logRemoval(tankNumber);
         return removedTank;
+    }
+
+    /**
+     * Erstellt einen Logeintrag im Logs/ContentRedistribution.txt, sobald der Inhalt eines Tanks umverteilt wird.
+     */
+    private void logRedistributeContent(int tankNumber, float redistributedLiters) {
+        try {
+            // Open the file in append mode
+            FileWriter fileWriter = new FileWriter("Logs/ContentRedistribution.txt", true);
+            PrintWriter writer = new PrintWriter(fileWriter);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Write the log entry to the file
+            writer.println("Content Redistribution - From Tank: " + tankNumber + ", Liters: " + redistributedLiters + ", Date: " + currentDate);
+
+            // Close the file
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -77,11 +115,29 @@ class TankStorage {
     public void startMaintenance(int tankNumber) {
         for (Tank tank : tanks) {
             if (tank.getNumber() == tankNumber) {
+                float tankContent = tank.getStoredLiters();
+                // Umverteilung des Inhalts, bevor die Wartung beginnt
+                for (Tank otherTank : tanks) {
+                    if (otherTank != tank) {
+                        float spaceAvailable = otherTank.getCapacity() - otherTank.getStoredLiters();
+                        if (spaceAvailable > 0) {
+                            float transferredLiters = Math.min(spaceAvailable, tankContent);
+                            otherTank.deliver(transferredLiters);
+                            tankContent -= transferredLiters;
+                        }
+                    }
+                }
+                // Setzen des Tanks in Wartung, nachdem der Inhalt umverteilt wurde
                 tank.setUnderMaintenance(true);
+
+                // Log-Eintrag für den Start der Wartung
+                logstartMaintenance(tankNumber);
+
+                // Log-Eintrag für die Umverteilung des Inhalts
+                logRedistributeContent(tankNumber, tankContent);
                 break;
             }
         }
-        logstartMaintenance(tankNumber);
     }
 
     /**
@@ -92,11 +148,15 @@ class TankStorage {
     public void endMaintenance(int tankNumber) {
         for (Tank tank : tanks) {
             if (tank.getNumber() == tankNumber) {
+                // Setzen des Tanks aus der Wartung und Zurücksetzen der gelagerten Liter auf 0
                 tank.setUnderMaintenance(false);
+                tank.setStoredLiters(0); // Setze gelagerte Liter auf 0
+
+                // Log-Eintrag für das Ende der Wartung
+                logendMaintenance(tankNumber);
                 break;
             }
         }
-        logendMaintenance(tankNumber);
     }
 
     /**
@@ -168,7 +228,7 @@ class TankStorage {
     /**
      * Erstellt einen Logeintrag im Logs/Maintenance.txt, sobald eine Wartung gestartet wird.
      */
-    private  void logstartMaintenance(int tankNumber) {
+    private void logstartMaintenance(int tankNumber) {
         try {
             // Open the file in append mode
             FileWriter fileWriter = new FileWriter("Logs/Maintenance.txt", true);

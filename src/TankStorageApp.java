@@ -23,6 +23,7 @@ public class TankStorageApp {
                 action = 1;
             }else {
                 //Aktion wählen
+                System.out.println();
                 System.out.println("Wähle eine Aktion:");
                 System.out.println("1| Tank hinzufügen");
                 System.out.println("2| Tank entfernen");

@@ -13,7 +13,7 @@ class Tank {
     private int number;
     private String name;
     private float capacity;
-    private int storedLiters = 0;
+    private float storedLiters = 0;
     private LocalDate constructionDate;
     private boolean isUnderMaintenance = false;
 
@@ -32,6 +32,15 @@ class Tank {
         this.constructionDate = constructionDate;
 
         logCreation();
+    }
+
+    /**
+     * Setzt die Menge des gelagerten Öls in Litern auf einen bestimmten Wert.
+     *
+     * @param liters Die Menge des gelagerten Öls in Litern, die gesetzt werden soll.
+     */
+    public void setStoredLiters(float liters) {
+        this.storedLiters = liters;
     }
 
     /**
