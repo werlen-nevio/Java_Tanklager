@@ -165,15 +165,24 @@ class TankStorage {
      * @return Ein String mit Informationen über das Tanklager.
      */
     public String getStorageInfo() {
-        int totalTanks = tanks.size();
-        float totalCapacity = (float) tanks.stream().mapToDouble(tank -> tank.getCapacity()).sum();
-        float totalStoredLiters = (float) tanks.stream().mapToDouble(tank -> tank.getStoredLiters()).sum();
-        float totalFreeCapacity = totalCapacity - totalStoredLiters;
-        String Message = "Das Tanklager umfasst " + totalTanks + " Tanks mit einer Gesamtkapazität von " + totalCapacity + " Litern. " +
-                totalStoredLiters + " Liter Öl sind eingelagert. Für " + totalFreeCapacity + " Liter gibt es noch Platz.";
-        logStorageInfo(Message);
+        int totalTanks = 0;
+        float totalCapacity = 0;
+        float totalStoredLiters = 0;
 
-        return Message;
+        for (Tank tank : tanks) {
+            if (!tank.isUnderMaintenance()) {
+                totalTanks++;
+                totalCapacity += tank.getCapacity();
+                totalStoredLiters += tank.getStoredLiters();
+            }
+        }
+
+        float totalFreeCapacity = totalCapacity - totalStoredLiters;
+        String message = "Das Tanklager umfasst " + totalTanks + " Tanks mit einer Gesamtkapazität von " + totalCapacity + " Litern. " +
+                totalStoredLiters + " Liter Öl sind eingelagert. Für " + totalFreeCapacity + " Liter gibt es noch Platz.";
+        logStorageInfo(message);
+
+        return message;
     }
 
     /**
