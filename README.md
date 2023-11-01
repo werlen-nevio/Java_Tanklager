@@ -64,5 +64,5 @@
 - [x] Second part
 - [x] Log files
 - [ ] Unit tests
-- [ ] Documentation
+- [x] Documentation
 - [x] Report
