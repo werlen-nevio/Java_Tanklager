@@ -96,6 +96,11 @@ class TankStorage {
      * @return Die Menge des nicht gelieferten Öles (0, wenn alles geliefert wurde).
      */
     public float deliverToTanks(float liters) {
+        if(liters <= 0) {
+            generateStatusMessage("geliefert", 0);
+            return 0;
+        }
+
         float remainingLiters = liters;
         for (Tank tank : tanks) {
             remainingLiters = tank.deliver(remainingLiters);
@@ -111,6 +116,10 @@ class TankStorage {
      * @return Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
      */
     public float withdrawFromTanks(float liters) {
+        if(liters <= 0) {
+            generateStatusMessage("entnommen", 0);
+            return 0;
+        }
         float remainingLiters = liters;
         for (Tank tank : tanks) {
             remainingLiters = tank.withdraw(remainingLiters);

@@ -65,7 +65,7 @@ public class InputUtils {
 
         while (!success) {
             if (scanner.hasNext()) {
-                userInputString = scanner.next();
+                userInputString = scanner.nextLine();
                 success = true;
             } else {
                 System.out.println("Bitte geben Sie einen gültigen Wert ein");
