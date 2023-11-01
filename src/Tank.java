@@ -1,5 +1,3 @@
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.io.FileWriter;
@@ -12,8 +10,8 @@ import java.io.PrintWriter;
 class Tank {
     private int number;
     private String name;
-    private float capacity;
-    private float storedLiters = 0;
+    private double capacity;
+    private double storedLiters = 0;
     private LocalDate constructionDate;
     private boolean isUnderMaintenance = false;
 
@@ -22,10 +20,10 @@ class Tank {
      *
      * @param number             Die eindeutige Nummer des Tanks.
      * @param name               Der Name des Tanks.
-     * @param capacity         Die maximale Kapazität des Tanks in Litern.
-     * @param constructionDate Das Datum, an dem der Tank gebaut wurde.
+     * @param capacity           Die maximale Kapazität des Tanks in Litern.
+     * @param constructionDate   Das Datum, an dem der Tank gebaut wurde.
      */
-    public Tank(int number, String name, float capacity, LocalDate constructionDate) {
+    public Tank(int number, String name, double capacity, LocalDate constructionDate) {
         this.number = number;
         this.name = name;
         this.capacity = capacity;
@@ -39,7 +37,7 @@ class Tank {
      *
      * @param liters Die Menge des gelagerten Öls in Litern, die gesetzt werden soll.
      */
-    public void setStoredLiters(float liters) {
+    public void setStoredLiters(double liters) {
         this.storedLiters = liters;
     }
 
@@ -47,10 +45,10 @@ class Tank {
      * Liefert eine bestimmte Menge Öl an den Tank.
      *
      * @param liters Die Menge des zu lieferndem Öles in Litern.
-     * @return      Die Menge des nicht gelieferten Öles (0, wenn alles geliefert wurde).
+     * @return Die Menge des nicht gelieferten Öles (0, wenn alles geliefert wurde).
      */
-    public float deliver(float liters) {
-        if (liters <= 0 ) {
+    public double deliver(double liters) {
+        if (liters <= 0) {
             return 0;
         }
 
@@ -58,7 +56,7 @@ class Tank {
             return liters;
         }
 
-        float deliveredLiters = Math.min(liters, capacity - storedLiters);
+        double deliveredLiters = Math.min(liters, capacity - storedLiters);
         storedLiters += deliveredLiters;
 
         return liters - deliveredLiters;
@@ -68,10 +66,10 @@ class Tank {
      * Entnimmt eine bestimmte Menge Öl aus dem Tank.
      *
      * @param liters Die Menge des zu entnehmenden Öles in Litern.
-     * @return      Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
+     * @return Die Menge des nicht entnommenen Öles (0, wenn alles entnommen wurde).
      */
-    public float withdraw(float liters) {
-       if (liters <= 0 ) {
+    public double withdraw(double liters) {
+        if (liters <= 0) {
             return 0;
         }
 
@@ -79,7 +77,7 @@ class Tank {
             return liters;
         }
 
-        float withdrawnLiters = Math.min(liters, storedLiters);
+        double withdrawnLiters = Math.min(liters, storedLiters);
         storedLiters -= withdrawnLiters;
 
         return liters - withdrawnLiters;
@@ -110,7 +108,7 @@ class Tank {
      *
      * @return Die Menge des gelagerten Öles in Litern.
      */
-    public float getStoredLiters() {
+    public double getStoredLiters() {
         return storedLiters;
     }
 
@@ -128,7 +126,7 @@ class Tank {
      *
      * @return Die maximale Kapazität in Litern.
      */
-    public float getCapacity() {
+    public double getCapacity() {
         return capacity;
     }
 
@@ -149,7 +147,6 @@ class Tank {
     public void setUnderMaintenance(boolean underMaintenance) {
         isUnderMaintenance = underMaintenance;
     }
-
 
     /**
      * Erstellt einen Logeintrag im Logs/Tank.txt, sobald ein Tank hinzugefügt wird.

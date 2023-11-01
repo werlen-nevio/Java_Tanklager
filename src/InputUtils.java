@@ -31,18 +31,18 @@ public class InputUtils {
     }
 
     /**
-     * Liest eine Zahl (float) von der Benutzereingabe ein.
+     * Liest eine Zahl (double) von der Benutzereingabe ein.
      *
-     * @return Die eingegebene Fließkommazahl.
+     * @return Die eingegebene Double-Zahl.
      */
-    public static float userInput_Float() {
-        float userInputFloat = 0.0f;
+    public static double userInput_Double() {
+        double userInputDouble = 0.0;
         boolean success = false;
         Scanner scanner = new Scanner(System.in);
 
         while (!success) {
-            if (scanner.hasNextFloat()) {
-                userInputFloat = scanner.nextFloat();
+            if (scanner.hasNextDouble()) {
+                userInputDouble = scanner.nextDouble();
                 success = true;
             } else {
                 System.out.println("Bitte geben Sie eine Zahl ein");
@@ -50,7 +50,7 @@ public class InputUtils {
             }
         }
 
-        return userInputFloat;
+        return userInputDouble;
     }
 
     /**

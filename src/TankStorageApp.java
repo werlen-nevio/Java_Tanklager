@@ -46,7 +46,7 @@ public class TankStorageApp {
                     String tankName = InputUtils.userInput_String();
 
                     System.out.println("Geben Sie die Kapazität des Tanks in Liter an:");
-                    float tankCapacity = InputUtils.userInput_Float();
+                    double tankCapacity = InputUtils.userInput_Double();
 
                     System.out.println("Geben Sie das Erbaudatum des Tanks an (dd.MM.yyyy):");
                     LocalDate constructionDate;
@@ -91,9 +91,9 @@ public class TankStorageApp {
                 case 5:
                     //Öl anliefern
                     System.out.println("Wie viele Liter werden angeliefert?");
-                    float deliveredLiters = InputUtils.userInput_Float();
-                    float remainingDeliveredLiters = tankStorage.deliverToTanks(deliveredLiters);
-                    float successfullyDeliveredLiters = deliveredLiters - remainingDeliveredLiters;
+                    double deliveredLiters = InputUtils.userInput_Double();
+                    double remainingDeliveredLiters = tankStorage.deliverToTanks(deliveredLiters);
+                    double successfullyDeliveredLiters = deliveredLiters - remainingDeliveredLiters;
                     System.out.println(successfullyDeliveredLiters + " Liter wurden angeliefert.");
                     logDelivery(successfullyDeliveredLiters);
                     break;
@@ -101,9 +101,9 @@ public class TankStorageApp {
                 case 6:
                     //Öl ausliefern
                     System.out.println("Wie viele Liter werden ausgeliefert?");
-                    float withdrawnLiters = InputUtils.userInput_Float();
-                    float remainingWithdrawnLiters = tankStorage.withdrawFromTanks(withdrawnLiters);
-                    float successfullyWithdrawnLiters = withdrawnLiters - remainingWithdrawnLiters;
+                    double withdrawnLiters = InputUtils.userInput_Double();
+                    double remainingWithdrawnLiters = tankStorage.withdrawFromTanks(withdrawnLiters);
+                    double successfullyWithdrawnLiters = withdrawnLiters - remainingWithdrawnLiters;
                     System.out.println(successfullyWithdrawnLiters + " Liter wurden ausgeliefert.");
                     logWithdraw(successfullyWithdrawnLiters);
                     break;
@@ -139,7 +139,7 @@ public class TankStorageApp {
     /**
      * Erstellt einen Logeintrag im Logs/Deliver.txt, sobald Öl angeliefert wird.
      */
-    private static void logDelivery(float successfullyDeliveredLiters){
+    private static void logDelivery(double successfullyDeliveredLiters){
         try {
             // Open the file in append mode
             FileWriter fileWriter = new FileWriter("Logs/Deliver.txt", true);
@@ -161,7 +161,7 @@ public class TankStorageApp {
     /**
      * Erstellt einen Logeintrag im Logs/Withdraw.txt, sobald Öl ausgeliefert wird.
      */
-    private static void logWithdraw(float successfullyWithdrawnLiters){
+    private static void logWithdraw(double successfullyWithdrawnLiters){
         try {
             // Open the file in append mode
             FileWriter fileWriter = new FileWriter("Logs/Withdraw.txt", true);
